@@ -30,7 +30,7 @@ const changeStatus = (id) => {
       <h1
         class="pb-4 text-6xl font-thin tracking-tight text-center text-blue-500 "
       >
-        🚀 My Todo App
+        🚀 My Todo App1
       </h1>
       <input
         @change="addTodo"
