@@ -4,7 +4,7 @@ import List from "./components/List.vue"
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-800">
+  <div class="min-h-screen bg-blue-800">
     <div class="container flex flex-col pt-8 mx-auto space-y-8">
       <Title />
 

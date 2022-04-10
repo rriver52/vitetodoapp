@@ -1,28 +1,49 @@
 import { ref, computed } from "vue";
-
+import axios from 'axios'
 const todos = ref([]);
 
+const api = axios.create({
+  baseURL: 'https://api.myperfectdoman.com/api/todos',
+    params: {
+      username: 'admin',
+      password: 'admin',
+    }
+})
+
 const useTodos =() =>{
+const getAll =async () => {
+    const { data } = await api.get('/')
+    todos.value = data
+}
+
+
     const pending = computed(() => {
         return todos.value.filter((todo) => !todo.done);
       });
       const completed = computed(() => {
-        return todos.value.filter((todo) => todo.done);
+        return todos.value.filter((todo) => todo.completed);
       });
-      const addTodo = (newTodo) => {
+      const addTodo = async newTodo => {
         if (newTodo.trim()) {
-          todos.value.push({
+          await api.post('',{
             id: todos.value.length,
-            content: newTodo,
-            done: false,
+            text: newTodo,
+            completed: false,
           });
+          await getAll()
       
         }
       };
-      const changeStatus = (id) => {
+      const changeStatus = async id => {
         const todo = todos.value.find((todo) => todo.id === id);
-        todo.done = !todo.done;
+        todo.completed = !todo.completed
+        const {id: _id, ...todoToUpdate} = todo
+        await api.put(`/${id}`, todoToUpdate)
+        await getAll()
       };
+
+      getAll()
+
       return{
           todos,
           pending,
